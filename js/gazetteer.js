@@ -14,7 +14,6 @@ var userLat;
 var userLng;
 var userISO3;
 var clickISO3;
-var infoTableStatus;
 var weatherBtnStatus = false;
 var capitalMarker;
 var wikiCluster = L.markerClusterGroup();
@@ -114,8 +113,7 @@ const ajaxRestCountries = function(countryName) {
       ajaxCovid19(country.code.iso3);
       //ajaxOpenExchangeRate(country.currency.code);
       ajaxHDI(country.code.iso3);
-      ajaxOpenWeatherCapital(country.capital);
-      
+      ajaxOpenWeatherCapital(country.capital);           
     },
     error: function(error) {
       console.log(error);
@@ -209,10 +207,7 @@ const ajaxCovid19 = function(iso3) {
           recovered: 'not available',
           active: 'not available'
         }
-      }
-      if (infoTableStatus == "covid") {
-        covidDataTableUpdate();
-      }
+      }      
     },
     error: function(error) {
       //console.log(error);
@@ -267,10 +262,7 @@ const ajaxHDI = function(iso3) {
           gniPerCapita: "not available",
           hdiRank: "not available"
         }
-      }
-      if (infoTableStatus == "hdi") {
-        hdiDataTableUpdate();
-      }
+      }      
     }
     ,
     error: function(error) {
@@ -373,15 +365,15 @@ const ajaxGeonameIdChildren = function(geonameId) {
             geoJsonLayer.removeLayer(wikiCluster);
             weatherCluster = L.markerClusterGroup();
             if (result['data']) {
-            $('#loadingModal').modal('show');
-            result['data'].forEach(geoname => {
-              
-                ajaxOpenWeatherMap(geoname.lat, geoname.lng, geoname.name);
-              });
-            setTimeout(() => {
-              $('#loadingModal').modal('hide');
-            }, 1500);
-            }
+              $('#loadingModal').modal('show');
+              result['data'].forEach(geoname => {
+                
+                  ajaxOpenWeatherMap(geoname.lat, geoname.lng, geoname.name);
+              });              
+              setTimeout(() => {
+                $('#loadingModal').modal('hide');                              
+              }, 1500);            
+          }
             worldMap.fitBounds(geoJsonLayer.getBounds());
             
           },
@@ -754,13 +746,16 @@ $('#weatherBtn').click(function(event) {
   if (!weatherBtnStatus) {
     if(!weatherCluster) {
       ajaxGeonameIdChildren(country.geonameId);
+      $('#waetherBtnIconImage').attr('src', 'img/world.ico');
     } else {
       geoJsonLayer.removeLayer(wikiCluster);
       weatherCluster.addTo(geoJsonLayer);
+      $('#waetherBtnIconImage').attr('src', 'img/world.ico');
     }
     geoJsonLayer.removeLayer(capitalMarker);
     weatherBtnStatus = true;
   } else {
+        $('#waetherBtnIconImage').attr('src', 'img/weatherIcon2.ico');
         geoJsonLayer.removeLayer(weatherCluster);
         wikiCluster.addTo(geoJsonLayer);
         capitalMarker.addTo(geoJsonLayer);
