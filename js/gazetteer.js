@@ -112,7 +112,7 @@ const ajaxRestCountries = function(countryName) {
       //calling the APIs:
       ajaxGeonameId(country.code.iso2);
       ajaxCovid19(country.code.iso3);
-      ajaxOpenExchangeRate(country.currency.code);
+      //ajaxOpenExchangeRate(country.currency.code);
       ajaxHDI(country.code.iso3);
       ajaxOpenWeatherCapital(country.capital);
       
@@ -349,6 +349,11 @@ const ajaxGeonameId = function(iso2) {
             
             ajaxGeonameWikipedia(country.boundingBox);
             
+            //loading modal called
+            $('#loadingModal').modal('show');
+            setTimeout(function() {
+              $('#loadingModal').modal('hide');
+            }, 5000);
           },
           error: function(error) {
             console.log(error);
@@ -368,10 +373,14 @@ const ajaxGeonameIdChildren = function(geonameId) {
             geoJsonLayer.removeLayer(wikiCluster);
             weatherCluster = L.markerClusterGroup();
             if (result['data']) {
+            $('#loadingModal').modal('show');
             result['data'].forEach(geoname => {
               
                 ajaxOpenWeatherMap(geoname.lat, geoname.lng, geoname.name);
               });
+            setTimeout(() => {
+              $('#loadingModal').modal('hide');
+            }, 1500);
             }
             worldMap.fitBounds(geoJsonLayer.getBounds());
             
@@ -484,12 +493,13 @@ const ajaxGeonameWikipedia = function(boundingBox) {
           data: {boundingBox: boundingBox},
           success: function(result) {
             //console.log(result);
-            if (result['data']) {
+            if (result['data']) {              
               result['data'].forEach(geoname => {
                 ajaxWikipediaImage(geoname);
                 });
-              wikiCluster.addTo(geoJsonLayer);
-            } else {
+              wikiCluster.addTo(geoJsonLayer);                          
+              } else {
+              $('#errorModal').modal('show');
               country.code = {};
             }
             
@@ -717,28 +727,28 @@ $("#countrySelection").change(function(e) {
 });
 
 //adding event listener to infoBtn:
-$('#infoBtn').click(function() { 
+$('#infoBtn').click(function(event) { 
     generalDataTableUpdate();
-    $('infoTableModal').show();
+    $('#infoTable').show();
     event.stopPropagation();
 });
 
 //adding an event listener to the covidBtn:
-$('#covidBtn').click(function() {
+$('#covidBtn').click(function(event) {
     covidDataTableUpdate();
     $('#covidTable').show();
     event.stopPropagation();
 });
 
 //adding an event listener to the HDI btn:
-$('#HDIBtn').click(function() {
+$('#HDIBtn').click(function(event) {
     hdiDataTableUpdate();
     $('#hdiTable').show();
     event.stopPropagation();
 });
 
 //adding an event listener to the weather Btn:
-$('#weatherBtn').click(function() {
+$('#weatherBtn').click(function(event) {
   
   $('#tableCol').hide();
   if (!weatherBtnStatus) {

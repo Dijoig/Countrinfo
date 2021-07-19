@@ -53,11 +53,45 @@
     </div>
   </div>
 
+  <div id="errorModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content" id="errorModalContent">
+        <div class="modal-header">
+          <h4 class="modal-title" id="errorNameTxt" style="color: red;">There was an error...</h4>
+          <button type="button" class="btn" data-dismiss="modal" aria-label="Close"><span class="material-icons">
+            close
+            </span></button>
+        </div>
+        <div class="modal-body">
+          <p>Please try to select a country again</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="loadingModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loadingModalLabel" style="color: blue;">Please wait</h5>          
+        </div>
+        <div class="modal-body">
+          Loading country content...
+        </div>
+        <div class="modal-footer">          
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="infoTableModal" class="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content" id="infoTableModalContent">
         <div class="modal-header">
-          <h4 class="modal-title" id="infoNameTxt"></h5>
+          <h4 class="modal-title" id="infoNameTxt"></h4>
           <button type="button" class="btn" data-dismiss="modal" aria-label="Close"><span class="material-icons">
             close
             </span></button>
